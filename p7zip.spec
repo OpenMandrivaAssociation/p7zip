@@ -14,8 +14,7 @@ BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 
 %description
 p7zip is a port of 7za.exe for Unix. 7-Zip is a file archiver with
-highest compression ratio. Original version can be found at
-http://www.7zip.org.
+highest compression ratio.
 
 %prep
 %setup -q -n %{name}_%{version}
