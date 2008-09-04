@@ -29,10 +29,14 @@ find DOCS -type d|xargs chmod 755
 find README ChangeLog TODO DOCS -type f|xargs chmod 644
 %build
 %make
+#all3
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -m755 bin/7za -D $RPM_BUILD_ROOT%{_bindir}/7za
+%makeinstall DEST_HOME=%buildroot%_prefix DEST_MAN=%buildroot%_mandir DEST_SHARE=%buildroot%_libdir/%name
+chmod -R +w %buildroot
+rm -f %buildroot%_libdir/p7zip/Codecs/Rar29.so
+
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -41,5 +45,6 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(-,root,root)
 %doc README ChangeLog TODO DOCS/*
 %{_bindir}/7za
-
+#%_libdir/p7zip
+%_mandir/man1/*
 
