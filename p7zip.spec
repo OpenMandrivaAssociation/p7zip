@@ -1,13 +1,13 @@
 %define	name	p7zip
 %define	version	4.58
-%define	release	%mkrel 3
+%define	release	%mkrel 4
 
 Summary:	7-zip compatible compression program
 Name:		%{name}
 Version:	%{version}
 Release:	%{release}
 Source0:	http://prdownloads.sourceforge.net/p7zip/%{name}_%{version}_src_all.tar.bz2
-License:	LGPL
+License:	LGPLv2+
 Group:		Archiving/Compression
 Url:		http://p7zip.sourceforge.net/
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
@@ -35,8 +35,9 @@ rm -rf $RPM_BUILD_ROOT
 %makeinstall DEST_HOME=%buildroot%_prefix DEST_MAN=%buildroot%_mandir DEST_SHARE=%buildroot%_libdir/%name
 chmod -R +w %buildroot
 #gw don't package this, it is non-free like unrar
-rm -f %buildroot%_libdir/p7zip/Codecs/Rar29.so
-
+rm -f %buildroot%_libdir/p7zip/Codecs/Rar29.so DOCS/unRarLicense.txt
+#gw fix paths in wrapper scripts
+perl -pi -e "s^%buildroot^^" %buildroot%_bindir/*
 
 %clean
 rm -rf $RPM_BUILD_ROOT
