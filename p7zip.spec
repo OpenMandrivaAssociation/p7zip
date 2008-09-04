@@ -28,13 +28,13 @@ perl -pi -e "s/-O2/%optflags/" makefile.glb
 find DOCS -type d|xargs chmod 755
 find README ChangeLog TODO DOCS -type f|xargs chmod 644
 %build
-%make
-#all3
+%make all3
 
 %install
 rm -rf $RPM_BUILD_ROOT
 %makeinstall DEST_HOME=%buildroot%_prefix DEST_MAN=%buildroot%_mandir DEST_SHARE=%buildroot%_libdir/%name
 chmod -R +w %buildroot
+#gw don't package this, it is non-free like unrar
 rm -f %buildroot%_libdir/p7zip/Codecs/Rar29.so
 
 
@@ -45,6 +45,8 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(-,root,root)
 %doc README ChangeLog TODO DOCS/*
 %{_bindir}/7za
-#%_libdir/p7zip
+%{_bindir}/7zr
+%{_bindir}/7z
+%_libdir/p7zip
 %_mandir/man1/*
 
