@@ -12,6 +12,9 @@ License:	LGPLv2+
 Group:		Archiving/Compression
 Url:		http://p7zip.sourceforge.net/
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
+%ifarch %ix86
+BuildRequires: nasm
+%endif
 
 %description
 p7zip is a port of 7za.exe for Unix. 7-Zip is a file archiver with
