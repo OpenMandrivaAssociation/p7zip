@@ -15,6 +15,9 @@ BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 %ifarch %ix86
 BuildRequires: nasm
 %endif
+%ifarch x86_64
+BuildRequires: yasm
+%endif
 
 %description
 p7zip is a port of 7za.exe for Unix. 7-Zip is a file archiver with
