@@ -1,12 +1,13 @@
 %define	name	p7zip
 %define	version	9.04
-%define	release	%mkrel 1
+%define	release	%mkrel 2
 
 Summary:	7-zip compatible compression program
 Name:		%{name}
 Version:	%{version}
 Release:	%{release}
 Source0:	http://prdownloads.sourceforge.net/p7zip/%{name}_%{version}_src_all.tar.bz2
+Patch0: p7zip_9.04-fix-format-strings.patch
 License:	LGPLv2+
 Group:		Archiving/Compression
 Url:		http://p7zip.sourceforge.net/
@@ -18,13 +19,18 @@ highest compression ratio.
 
 %prep
 %setup -q -n %{name}_%{version}
+%apply_patches
 %ifarch x86_64
-cp makefile.linux_amd64 makefile.machine
+cp makefile.linux_amd64_asm makefile.machine
 %endif
-%ifarch %ix86 alpha ppc
-cp makefile.linux_x86_ppc_alpha makefile.machine
+%ifarch %ix86
+cp makefile.linux_x86_asm_gcc_4.X makefile.machine
 %endif
-perl -pi -e "s/-O2/%optflags/" makefile.glb
+%ifarch alpha ppc
+cp makefile.linux_x86_ppc_alpha_gcc_4.X makefile.machine
+%endif
+#gw really use our flags:
+perl -pi -e "s/-s /%optflags /" makefile.machine
 find DOCS -type d|xargs chmod 755
 find README ChangeLog TODO DOCS -type f|xargs chmod 644
 %build
