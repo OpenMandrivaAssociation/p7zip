@@ -1,13 +1,13 @@
 %define	name	p7zip
-%define	version	9.04
-%define	release	%mkrel 3
+%define	version	9.13
+%define	release	%mkrel 1
 
 Summary:	7-zip compatible compression program
 Name:		%{name}
 Version:	%{version}
 Release:	%{release}
 Source0:	http://prdownloads.sourceforge.net/p7zip/%{name}_%{version}_src_all.tar.bz2
-Patch0: p7zip_9.04-fix-format-strings.patch
+Patch0: p7zip_9.13-fix-format-strings.patch
 License:	LGPLv2+
 Group:		Archiving/Compression
 Url:		http://p7zip.sourceforge.net/
