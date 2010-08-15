@@ -1,6 +1,6 @@
 %define	name	p7zip
 %define	version	9.13
-%define	release	%mkrel 1
+%define	release	%mkrel 2
 
 Summary:	7-zip compatible compression program
 Name:		%{name}
@@ -48,8 +48,8 @@ rm -rf $RPM_BUILD_ROOT
 chmod -R +w %buildroot
 #gw don't package this, it is non-free like unrar
 rm -f %buildroot%_libdir/p7zip/Codecs/Rar29.so DOCS/unRarLicense.txt
-#gw fix paths in wrapper scripts
-perl -pi -e "s^%buildroot^^" %buildroot%_bindir/*
+#gw fix paths in wrapper scripts and man pages
+perl -pi -e "s^%buildroot^^" %buildroot%_bindir/* %buildroot%_mandir/man1/*
 
 %clean
 rm -rf $RPM_BUILD_ROOT
