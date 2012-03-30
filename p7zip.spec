@@ -1,6 +1,6 @@
 %define	name	p7zip
 %define	version	9.20.1
-%define	release	%mkrel 1
+%define	release	%mkrel 2
 
 Summary:	7-zip compatible compression program
 Name:		%{name}
