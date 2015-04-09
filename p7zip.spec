@@ -1,7 +1,7 @@
 Summary:	7-zip compatible compression program
 Name:		p7zip
-Version:	9.20.1
-Release:	9
+Version:	9.38.1
+Release:	1
 License:	LGPLv2+
 Group:		Archiving/Compression
 Url:		http://p7zip.sourceforge.net/
@@ -31,21 +31,21 @@ cp makefile.linux_x86_ppc_alpha_gcc_4.X makefile.machine
 %endif
 #gw really use our flags:
 perl -pi -e "s/-s /%optflags /" makefile.machine
-find DOCS -type d|xargs chmod 755
-find README ChangeLog TODO DOCS -type f|xargs chmod 644
+find DOC -type d|xargs chmod 755
+find README ChangeLog TODO DOC -type f|xargs chmod 644
 %build
-%make all3
+%make all3 CC=%{__cc} CXX=%{__cxx}
 
 %install
 %makeinstall DEST_HOME=%{buildroot}%{_prefix} DEST_MAN=%{buildroot}%{_mandir} DEST_SHARE=%{buildroot}%{_libdir}/%{name}
 chmod -R +w %{buildroot}
 #gw don't package this, it is non-free like unrar
-rm -f %{buildroot}%{_libdir}/p7zip/Codecs/Rar29.so DOCS/unRarLicense.txt
+rm -f %{buildroot}%{_libdir}/p7zip/Codecs/Rar29.so DOC/unRarLicense.txt
 #gw fix paths in wrapper scripts and man pages
 perl -pi -e "s^%{buildroot}^^" %{buildroot}%{_bindir}/* %{buildroot}%{_mandir}/man1/*
 
 %files
-%doc README ChangeLog TODO DOCS/*
+%doc README ChangeLog TODO DOC/*
 %{_bindir}/7za
 %{_bindir}/7zr
 %{_bindir}/7z
