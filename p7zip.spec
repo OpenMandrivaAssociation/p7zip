@@ -1,7 +1,7 @@
 Summary:	7-zip compatible compression program
 Name:		p7zip
-Version:	9.38.1
-Release:	3
+Version:	15.09
+Release:	1
 License:	LGPLv2+
 Group:		Archiving/Compression
 Url:		http://p7zip.sourceforge.net/
@@ -20,24 +20,31 @@ highest compression ratio.
 %prep
 %setup -qn %{name}_%{version}
 %apply_patches
+
 %ifarch x86_64
 cp makefile.linux_amd64_asm makefile.machine
 %endif
+
 %ifarch %ix86
 cp makefile.linux_x86_asm_gcc_4.X makefile.machine
 %endif
-%ifarch alpha ppc
-cp makefile.linux_x86_ppc_alpha_gcc_4.X makefile.machine
+
+%ifarch %{armx}
+cp makefile.linux_any_cpu makefile.machine
 %endif
+
 #gw really use our flags:
-perl -pi -e "s/-s /%optflags /" makefile.machine
+sed -i -e "s/^OPTFLAGS=.*/OPTFLAGS=%{optflags}/" makefile.machine
+
 find DOC -type d|xargs chmod 755
 find README ChangeLog TODO DOC -type f|xargs chmod 644
+
 %build
 %make all3 CC=%{__cc} CXX=%{__cxx}
 
 %install
 %makeinstall DEST_HOME=%{buildroot}%{_prefix} DEST_MAN=%{buildroot}%{_mandir} DEST_SHARE=%{buildroot}%{_libdir}/%{name}
+
 chmod -R +w %{buildroot}
 #gw don't package this, it is non-free like unrar
 rm -f %{buildroot}%{_libdir}/p7zip/Codecs/Rar29.so DOC/unRarLicense.txt
