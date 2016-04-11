@@ -1,7 +1,7 @@
 Summary:	7-zip compatible compression program
 Name:		p7zip
-Version:	15.09
-Release:	2
+Version:	15.14.1
+Release:	1
 License:	LGPLv2+
 Group:		Archiving/Compression
 Url:		http://p7zip.sourceforge.net/
@@ -50,7 +50,7 @@ chmod -R +w %{buildroot}
 rm -f %{buildroot}%{_libdir}/p7zip/Codecs/Rar29.so DOC/unRarLicense.txt
 #gw fix paths in wrapper scripts and man pages
 perl -pi -e "s^%{buildroot}^^" %{buildroot}%{_bindir}/* %{buildroot}%{_mandir}/man1/*
-find . -perm 0640 | xargs chmod 0644
+#find . -perm 0640 | xargs chmod 0644
 
 %files
 %doc README ChangeLog TODO DOC/*
