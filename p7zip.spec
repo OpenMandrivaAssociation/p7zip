@@ -1,6 +1,6 @@
 Summary:	7-zip compatible compression program
 Name:		p7zip
-Version:	15.14.1
+Version:	16.02
 Release:	1
 License:	LGPLv2+
 Group:		Archiving/Compression
@@ -23,24 +23,26 @@ highest compression ratio.
 
 %ifarch x86_64
 cp makefile.linux_amd64_asm makefile.machine
-%endif
-
+%else
 %ifarch %ix86
 cp makefile.linux_x86_asm_gcc_4.X makefile.machine
-%endif
-
-%ifarch %{armx}
+%else
 cp makefile.linux_any_cpu makefile.machine
+%endif
 %endif
 
 #gw really use our flags:
 sed -i -e "s/^OPTFLAGS=.*/OPTFLAGS=%{optflags}/" makefile.machine
+sed -i -e "s/^LINK_SHARED=/LINK_SHARED=%{optflags} /" makefile.machine
+# And our compiler
+sed -i -e "s|^CC=.*|CC=%{__cc}|" makefile.machine
+sed -i -e "s|^CXX=.*|CXX=%{__cxx} -Wno-error=c++11-narrowing|" makefile.machine
 
 find DOC -type d|xargs chmod 755
 find README ChangeLog TODO DOC -type f|xargs chmod 644
 
 %build
-%make all3 CC=%{__cc} CXX=%{__cxx}
+%make all3
 
 %install
 %makeinstall DEST_HOME=%{buildroot}%{_prefix} DEST_MAN=%{buildroot}%{_mandir} DEST_SHARE=%{buildroot}%{_libdir}/%{name}
