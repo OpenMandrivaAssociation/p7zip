@@ -54,8 +54,10 @@ rm -f %{buildroot}%{_libdir}/p7zip/Codecs/Rar29.so DOC/unRarLicense.txt
 perl -pi -e "s^%{buildroot}^^" %{buildroot}%{_bindir}/* %{buildroot}%{_mandir}/man1/*
 #find . -perm 0640 | xargs chmod 0644
 
+rm -rf %{buildroot}%{_docdir}/%{name}
+
 %files
-%doc README ChangeLog TODO DOC/*
+%doc README ChangeLog TODO
 %{_bindir}/7za
 %{_bindir}/7zr
 %{_bindir}/7z
