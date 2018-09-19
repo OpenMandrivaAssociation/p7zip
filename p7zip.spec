@@ -1,15 +1,15 @@
 Summary:	7-zip compatible compression program
 Name:		p7zip
 Version:	16.02
-Release:	1
+Release:	2
 License:	LGPLv2+
 Group:		Archiving/Compression
 Url:		http://p7zip.sourceforge.net/
 Source0:	http://prdownloads.sourceforge.net/p7zip/%{name}_%{version}_src_all.tar.bz2
-%ifarch %ix86
+%ifarch %{ix86}
 BuildRequires:	nasm
 %endif
-%ifarch x86_64
+%ifarch %{x86_64}
 BuildRequires:	yasm
 %endif
 
@@ -21,10 +21,10 @@ highest compression ratio.
 %setup -qn %{name}_%{version}
 %apply_patches
 
-%ifarch x86_64
+%ifarch %{x86_64}
 cp makefile.linux_amd64_asm makefile.machine
 %else
-%ifarch %ix86
+%ifarch %{ix86}
 cp makefile.linux_x86_asm_gcc_4.X makefile.machine
 %else
 cp makefile.linux_any_cpu makefile.machine
@@ -42,10 +42,10 @@ find DOC -type d|xargs chmod 755
 find README ChangeLog TODO DOC -type f|xargs chmod 644
 
 %build
-%make all3
+%make_build all3
 
 %install
-%makeinstall DEST_HOME=%{buildroot}%{_prefix} DEST_MAN=%{buildroot}%{_mandir} DEST_SHARE=%{buildroot}%{_libdir}/%{name}
+%makei_nstall DEST_HOME=%{buildroot}%{_prefix} DEST_MAN=%{buildroot}%{_mandir} DEST_SHARE=%{buildroot}%{_libdir}/%{name}
 
 chmod -R +w %{buildroot}
 #gw don't package this, it is non-free like unrar
