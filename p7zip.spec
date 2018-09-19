@@ -45,7 +45,7 @@ find README ChangeLog TODO DOC -type f|xargs chmod 644
 %make_build all3
 
 %install
-%makei_nstall DEST_HOME=%{buildroot}%{_prefix} DEST_MAN=%{buildroot}%{_mandir} DEST_SHARE=%{buildroot}%{_libdir}/%{name}
+%make_install DEST_HOME=%{buildroot}%{_prefix} DEST_MAN=%{buildroot}%{_mandir} DEST_SHARE=%{buildroot}%{_libdir}/%{name}
 
 chmod -R +w %{buildroot}
 #gw don't package this, it is non-free like unrar
