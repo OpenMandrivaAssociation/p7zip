@@ -1,7 +1,7 @@
 Summary:	7-zip compatible compression program
 Name:		p7zip
 Version:	16.02
-Release:	2
+Release:	3
 License:	LGPLv2+
 Group:		Archiving/Compression
 Url:		http://p7zip.sourceforge.net/
