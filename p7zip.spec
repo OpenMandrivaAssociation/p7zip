@@ -1,7 +1,12 @@
+%global optflags %{optflags} -O3
+
+# (tpg) enable PGO build
+%bcond_without pgo
+
 Summary:	7-zip compatible compression program
 Name:		p7zip
 Version:	16.02
-Release:	3
+Release:	4
 License:	LGPLv2+
 Group:		Archiving/Compression
 Url:		http://p7zip.sourceforge.net/
@@ -18,8 +23,7 @@ p7zip is a port of 7za.exe for Unix. 7-Zip is a file archiver with
 highest compression ratio.
 
 %prep
-%setup -qn %{name}_%{version}
-%apply_patches
+%autosetup -n %{name}_%{version} -p1
 
 %ifarch %{x86_64}
 cp makefile.linux_amd64_asm makefile.machine
@@ -42,6 +46,28 @@ find DOC -type d|xargs chmod 755
 find README ChangeLog TODO DOC -type f|xargs chmod 644
 
 %build
+%if %{with pgo}
+export LLVM_PROFILE_FILE=%{name}-%p.profile.d
+export LD_LIBRARY_PATH="$(pwd)"
+CFLAGS="%{optflags} -fprofile-instr-generate" \
+CXXFLAGS="%{optflags} -fprofile-instr-generate" \
+FFLAGS="$CFLAGS_PGO" \
+FCFLAGS="$CFLAGS_PGO" \
+LDFLAGS="%{ldflags} -fprofile-instr-generate" \
+%make_build all3
+make test
+
+make LIBS=-lm check -j1
+unset LD_LIBRARY_PATH
+unset LLVM_PROFILE_FILE
+llvm-profdata merge --output=%{name}.profile *.profile.d
+
+make clean
+
+CFLAGS="%{optflags} -fprofile-instr-use=$(realpath %{name}.profile)" \
+CXXFLAGS="%{optflags} -fprofile-instr-use=$(realpath %{name}.profile)" \
+LDFLAGS="%{ldflags} -fprofile-instr-use=$(realpath %{name}.profile)" \
+%endif
 %make_build all3
 
 %install
@@ -63,4 +89,3 @@ rm -rf %{buildroot}%{_docdir}/%{name}
 %{_bindir}/7z
 %{_libdir}/p7zip
 %{_mandir}/man1/*
-
