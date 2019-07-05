@@ -49,11 +49,8 @@ find README ChangeLog TODO DOC -type f|xargs chmod 644
 %if %{with pgo}
 export LLVM_PROFILE_FILE=%{name}-%p.profile.d
 export LD_LIBRARY_PATH="$(pwd)"
-CFLAGS="%{optflags} -fprofile-instr-generate" \
-CXXFLAGS="%{optflags} -fprofile-instr-generate" \
-FFLAGS="$CFLAGS_PGO" \
-FCFLAGS="$CFLAGS_PGO" \
-LDFLAGS="%{ldflags} -fprofile-instr-generate" \
+sed -i -e "s/^OPTFLAGS=.*/OPTFLAGS=%{optflags} -fprofile-instr-generate/" makefile.machine
+sed -i -e "s/^LINK_SHARED=.*/LINK_SHARED=%{optflags} -fprofile-instr-generate/" makefile.machine
 %make_build all3
 make test
 
