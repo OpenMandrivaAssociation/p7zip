@@ -57,7 +57,6 @@ LDFLAGS="%{ldflags} -fprofile-instr-generate" \
 %make_build all3
 make test
 
-make LIBS=-lm check -j1
 unset LD_LIBRARY_PATH
 unset LLVM_PROFILE_FILE
 llvm-profdata merge --output=%{name}.profile *.profile.d
