@@ -1,4 +1,5 @@
-%global optflags %{optflags} -O3
+%global optflags %{optflags} -O3 -fuse-ld=bfd
+%global ldflags %{ldflags} -fuse-ld=bfd
 
 # (tpg) enable PGO build
 %bcond_without pgo
@@ -60,6 +61,8 @@ llvm-profdata merge --output=%{name}.profile *.profile.d
 
 make clean
 
+sed -i -e "s/^OPTFLAGS=.*/OPTFLAGS=%{optflags} -fprofile-instr-use=$(realpath %{name}.profile)/" makefile.machine
+sed -i -e "s/^LINK_SHARED=.*/LINK_SHARED=%{optflags} -fprofile-instr-use=$(realpath %{name}.profile)/" makefile.machine
 CFLAGS="%{optflags} -fprofile-instr-use=$(realpath %{name}.profile)" \
 CXXFLAGS="%{optflags} -fprofile-instr-use=$(realpath %{name}.profile)" \
 LDFLAGS="%{ldflags} -fprofile-instr-use=$(realpath %{name}.profile)" \
