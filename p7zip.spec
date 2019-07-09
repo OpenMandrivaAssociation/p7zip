@@ -1,9 +1,7 @@
 # (tpg) 2019-07-09
 # BUILDSTDERR: /usr/bin/ld.bfd: /usr/bin/../lib64/gcc/x86_64-openmandriva-linux-gnu/9.1.1/../../../../lib64/crt1.o: in function `_start':
 # BUILDSTDERR: /builddir/build/BUILD/glibc-2.29/csu/../sysdeps/x86_64/start.S:110: undefined reference to `main'
-%define _disable_lto 1
-%global optflags %{optflags} -O3 -fuse-ld=bfd
-%global ldflags %{ldflags} -fuse-ld=bfd
+%define _disable_ld_no_undefined 1
 
 # (tpg) enable PGO build
 %bcond_without pgo
