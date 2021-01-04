@@ -4,16 +4,16 @@
 %define _disable_ld_no_undefined 1
 
 # (tpg) enable PGO build
-%bcond_without pgo
+%bcond_with pgo
 
 Summary:	7-zip compatible compression program
 Name:		p7zip
-Version:	16.02
-Release:	4
+Version:	17.03
+Release:	1
 License:	LGPLv2+
 Group:		Archiving/Compression
 Url:		http://p7zip.sourceforge.net/
-Source0:	http://prdownloads.sourceforge.net/p7zip/%{name}_%{version}_src_all.tar.bz2
+Source0:	https://github.com/jinfeihan57/p7zip/archive/v%{version}.tar.gz
 %ifarch %{ix86}
 BuildRequires:	nasm
 %endif
@@ -26,7 +26,7 @@ p7zip is a port of 7za.exe for Unix. 7-Zip is a file archiver with
 highest compression ratio.
 
 %prep
-%autosetup -n %{name}_%{version} -p1
+%autosetup -n %{name}-%{version} -p1
 
 %ifarch %{x86_64}
 cp makefile.linux_amd64_asm makefile.machine
