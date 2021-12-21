@@ -4,12 +4,12 @@
 %define _disable_ld_no_undefined 1
 
 # (tpg) enable PGO build
-%bcond_with pgo
+%bcond_without pgo
 
 Summary:	7-zip compatible compression program
 Name:		p7zip
 Version:	17.03
-Release:	1
+Release:	2
 License:	LGPLv2+
 Group:		Archiving/Compression
 Url:		http://p7zip.sourceforge.net/
@@ -50,24 +50,24 @@ find README ChangeLog TODO DOC -type f|xargs chmod 644
 
 %build
 %if %{with pgo}
-export LLVM_PROFILE_FILE=%{name}-%p.profile.d
 export LD_LIBRARY_PATH="$(pwd)"
-sed -i -e "s/^OPTFLAGS=.*/OPTFLAGS=%{optflags} -fprofile-instr-generate/" makefile.machine
-sed -i -e "s/^LINK_SHARED=.*/LINK_SHARED=%{optflags} -fprofile-instr-generate/" makefile.machine
+sed -i -e "s/^OPTFLAGS=.*/OPTFLAGS=%{optflags} -fprofile-generate/" makefile.machine
+sed -i -e "s/^LINK_SHARED=.*/LINK_SHARED=%{optflags} -fprofile-generate/" makefile.machine
 %make_build all3
 make test
 
 unset LD_LIBRARY_PATH
-unset LLVM_PROFILE_FILE
-llvm-profdata merge --output=%{name}.profile *.profile.d
+llvm-profdata merge --output=%{name}-llvm.profdata $(find . -name "*.profraw" -type f)
+PROFDATA="$(realpath %{name}-llvm.profdata)"
+rm -f *.profraw
 
 make clean
 
-sed -i -e "s/^OPTFLAGS=.*/OPTFLAGS=%{optflags} -fprofile-instr-use=$(realpath %{name}.profile)/" makefile.machine
-sed -i -e "s/^LINK_SHARED=.*/LINK_SHARED=%{optflags} -fprofile-instr-use=$(realpath %{name}.profile)/" makefile.machine
-CFLAGS="%{optflags} -fprofile-instr-use=$(realpath %{name}.profile)" \
-CXXFLAGS="%{optflags} -fprofile-instr-use=$(realpath %{name}.profile)" \
-LDFLAGS="%{ldflags} -fprofile-instr-use=$(realpath %{name}.profile)" \
+sed -i -e "s/^OPTFLAGS=.*/OPTFLAGS=%{optflags} -fprofile-use=$PROFDATA/" makefile.machine
+sed -i -e "s/^LINK_SHARED=.*/LINK_SHARED=%{optflags} -fprofile-use=$PROFDATA/" makefile.machine
+CFLAGS="%{optflags} -fprofile-use=$PROFDATA" \
+CXXFLAGS="%{optflags} -fprofile-use=$PROFDATA" \
+LDFLAGS="%{build_ldflags} -fprofile-use=$PROFDATA" \
 %endif
 %make_build all3
 
@@ -89,4 +89,4 @@ rm -rf %{buildroot}%{_docdir}/%{name}
 %{_bindir}/7zr
 %{_bindir}/7z
 %{_libdir}/p7zip
-%{_mandir}/man1/*
+%doc %{_mandir}/man1/*
