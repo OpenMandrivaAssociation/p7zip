@@ -4,6 +4,7 @@
 %define _disable_ld_no_undefined 1
 
 # (tpg) enable PGO build
+# as of p7zip 17.04 and 2022.02.10 compiling with enabled pgo gives undefined reference to `main' error. Disabling PGO for now.
 %bcond_with pgo
 
 Summary:	7-zip compatible compression program
