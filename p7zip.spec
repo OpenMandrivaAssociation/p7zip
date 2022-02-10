@@ -13,7 +13,7 @@ Release:	1
 License:	LGPLv2+
 Group:		Archiving/Compression
 Url:		http://p7zip.sourceforge.net/
-Source0:	https://github.com/jinfeihan57/p7zip/archive/v%{version}.tar.gz
+Source0:	https://github.com/jinfeihan57/p7zip/archive/v%{version}/%{name}-%{version}.tar.gz
 %ifarch %{ix86}
 BuildRequires:	nasm
 %endif
