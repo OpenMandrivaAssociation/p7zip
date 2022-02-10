@@ -4,7 +4,7 @@
 %define _disable_ld_no_undefined 1
 
 # (tpg) enable PGO build
-%bcond_without pgo
+%bcond_with pgo
 
 Summary:	7-zip compatible compression program
 Name:		p7zip
