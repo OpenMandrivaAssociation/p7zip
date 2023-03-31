@@ -10,7 +10,7 @@
 Summary:	7-zip compatible compression program
 Name:		p7zip
 Version:	17.04
-Release:	1
+Release:	2
 License:	LGPLv2+
 Group:		Archiving/Compression
 Url:		http://p7zip.sourceforge.net/
