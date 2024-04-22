@@ -9,12 +9,12 @@
 
 Summary:	7-zip compatible compression program
 Name:		p7zip
-Version:	17.04
-Release:	2
+Version:	17.05
+Release:	1
 License:	LGPLv2+
 Group:		Archiving/Compression
 Url:		http://p7zip.sourceforge.net/
-Source0:	https://github.com/jinfeihan57/p7zip/archive/v%{version}/%{name}-%{version}.tar.gz
+Source0:	https://github.com/p7zip-project/p7zip/archive/v%{version}/%{name}-%{version}.tar.gz
 %ifarch %{ix86}
 BuildRequires:	nasm
 %endif
