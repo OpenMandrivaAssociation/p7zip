@@ -13,7 +13,7 @@ Version:	17.05
 Release:	1
 License:	LGPLv2+
 Group:		Archiving/Compression
-Url:		http://p7zip.sourceforge.net/
+Url:		https://p7zip.sourceforge.net/
 Source0:	https://github.com/p7zip-project/p7zip/archive/v%{version}/%{name}-%{version}.tar.gz
 %ifarch %{ix86}
 BuildRequires:	nasm
