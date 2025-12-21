@@ -16,6 +16,7 @@ Group:		Archiving/Compression
 Url:		https://p7zip.sourceforge.net/
 Source0:	https://github.com/p7zip-project/p7zip/archive/v%{version}/%{name}-%{version}.tar.gz
 %ifarch %{ix86}
+BuildRequires:	make
 BuildRequires:	nasm
 %endif
 %ifarch %{x86_64}
